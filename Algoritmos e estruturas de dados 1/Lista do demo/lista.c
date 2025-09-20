@@ -154,8 +154,27 @@ int alunosSemEmprestimoNoAno(PessoaAluno* alunos, int alunosSize, Emprestimo* em
 }
 
 // ex 2
-int livrosSemExemplarBom(Livro* livros, int livrosSize, Exemplar* exemplares, int exemplaresSize, Categoria* categorias, int categoriasSize) {
-    return 0;
+int livrosSemExemplarBom(Livro* livros, int livrosSize, Exemplar* exemplares, int exemplaresSize, Categoria* categorias, int categoriasSize, int idCategoria) {
+    int qtdLivrosSemExemplarBom = 0;
+    
+    for(int i = 0; i < livrosSize; i++) {
+        
+        if(idCategoria == 0 || livros[i].idCategoria == idCategoria) {
+            int temExemplarBom = 0;
+            for(int j = 0; j < exemplaresSize; j++) {
+                
+                if(livros[i].idLivro == exemplares[j].idLivro && (exemplares[j].codEstado == 1 || exemplares[j].codEstado == 2)) {
+                    temExemplarBom = 1;
+                    break;
+                }
+            }
+            if(temExemplarBom == 0) {
+                qtdLivrosSemExemplarBom += 1;
+            }
+        }
+        
+    }
+    return qtdLivrosSemExemplarBom;
 }
 
 // ex3
@@ -238,7 +257,7 @@ int main() {
     
     RecomendacaoLeitura recomendacoes[2] = { {1,1,1,2024}, {2,2,3,2024} };
     
-
-    printf("qtd alunos sem emprestimo: %d",alunosSemEmprestimoNoAno(alunos, 3, emprestimos, 5, 2023));
+    printf("qtd alunos sem emprestimno %d", alunosSemEmprestimoNoAno(alunos, 3, emprestimos, 5, 2023));
     
+    printf("\nqtd livro sem exemplar bom %d", livrosSemExemplarBom(livros, 4, exemplares, 5, categorias, 2, 0));
 }
