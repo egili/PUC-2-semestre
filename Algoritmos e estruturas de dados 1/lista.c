@@ -214,7 +214,32 @@ int reservasNaoAtendidas(Reserva* reservas, int reservasSize, Livro* livros, int
 
     int qtdReservasNaoAtendidas = 0;
     
-    
+    for(int i = 0; i < reservasSize; i++) {
+        int exemplarDisponivel = 0;
+        
+        for(int k = 0; k < exemplaresSize; k++) {
+            if(exemplares[k].idLivro == reservas[i].idLivro) {
+                int emprestimoAtivo = 0;
+                
+                for(int l = 0; l < emprestimosSize; l++) {
+                    if(exemplares[k].idExemplar == emprestimos[l].idExemplar) {
+                        if(emprestimos[k].anoEmprestimo <= reservas[i].anoReserva && (emprestimos[k].anoDevolucao == 0 || emprestimos[k].anoDevolucao > reservas[i].anoReserva)) {
+                            emprestimoAtivo = 1;
+                            break;
+                        }
+                    }
+                }
+                if(emprestimoAtivo == 0) {
+                    exemplarDisponivel == 1;
+                    break;
+                }
+            }
+        }
+        if(exemplarDisponivel == 0) {
+            qtdReservasNaoAtendidas++;
+        }
+    }
+    return qtdReservasNaoAtendidas;
 }
 
 // ex 5 
@@ -292,4 +317,6 @@ int main() {
     printf("\nqtd livro sem exemplar bom %d", livrosSemExemplarBom(livros, 4, exemplares, 5, categorias, 2, 0));
 
     printf("\n qtd professores em todos os eventos %d", professoresEmTodosEventos(professores, 2, eventos, 2, participacoes, 3, 2024));
+
+    printf("\n qtd reservas nao atendidas %d", reservasNaoAtendidas(reservas, 3, livros, 4, exemplares, 5, emprestimos, 5));
 }
