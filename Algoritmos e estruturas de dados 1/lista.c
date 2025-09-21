@@ -244,12 +244,31 @@ int reservasNaoAtendidas(Reserva* reservas, int reservasSize, Livro* livros, int
 
 // ex 5 
 int salasSempreLotadasAno(SalaEstudo* salasEstudo, int salasEstudoSize, ReservaSala* reservasSala, int reservasSalaSize, unsigned int ano, PessoaAluno* alunos, int alunosSize, PessoaProfessor* professores, int professoresSize) {
-    return 0;
+    int qtdSalasSempreLotadas = 0;
+    
+    for(int i = 0; i < salasEstudoSize; i++) {
+        int atingiuCapacidade = 0;
+        for(int j = 0; j < reservasSalaSize; j++) {
+            
+            if(reservasSala[j].anoReserva == ano && reservasSala[j].qtdPessoas == salasEstudo[i].capacidade) {
+                atingiuCapacidade = 1;
+                break;
+            }
+        }
+        if(atingiuCapacidade == 1) {
+            qtdSalasSempreLotadas++;
+        }
+    }
+    return qtdSalasSempreLotadas;
 }
 
 // ex 6 
 int exemplaresRevisadosPorVarios(RevisaoExemplar* revisaoesExemplares, int revisaoesExemplaresSize, Exemplar* exemplares, int exemplaresSize, Funcionario* funcionarios, int funcionariosSize, Livro* livros, int livrosSize, Categoria* categorias, int categoriasSize) {
-    return 0;    
+    int qtdExemplaresRevisadosPorVarios = 0;
+    
+    
+    
+    return qtdExemplaresRevisadosPorVarios;
 }
 
 // ex 7 
@@ -319,4 +338,6 @@ int main() {
     printf("\n qtd professores em todos os eventos %d", professoresEmTodosEventos(professores, 2, eventos, 2, participacoes, 3, 2024));
 
     printf("\n qtd reservas nao atendidas %d", reservasNaoAtendidas(reservas, 3, livros, 4, exemplares, 5, emprestimos, 5));
+
+    printf(" \n qtd salas sempre lotadas %d", salasSempreLotadasAno(salas, 2, reservasSala, 2, 2024, alunos, 3, professores, 2));
 }
