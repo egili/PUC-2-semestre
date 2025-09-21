@@ -294,8 +294,89 @@ int exemplaresRevisadosPorVarios(RevisaoExemplar* revisaoesExemplares, int revis
 }
 
 // ex 7 
-int usuariosSemMultasComDevolucao(PessoaAluno* alunos, int alunosSize, PessoaProfessor* professores, int professoresSize, Emprestimo* emprestimos, int emprestimosSize, Multa* multas, int multasSize, Doacao* doacoes, int doacoesSize) {
-    return 0;
+int usuariosSemMultasComDevolucao(PessoaAluno* alunos, int alunosSize, PessoaProfessor* professores, int professoresSize, Emprestimo* emprestimos, int emprestimosSize, Multa* multas, int multasSize, Doacao* doacoes, int doacoesSize, unsigned int ano) {
+    int qtdUsuariosSemMultaComDevolucao = 0;
+    
+    for (int i = 0; i < alunosSize; i++) {
+        int temMultaNaoPaga = 0;
+        
+        for (int j = 0; j < multasSize; j++) {
+            if (multas[j].pago == 0) {
+                for (int k = 0; k < emprestimosSize; k++) {
+                    if (emprestimos[k].idEmprestimo == multas[j].idEmprestimo &&
+                        emprestimos[k].tipoPessoa == 0 &&
+                        emprestimos[k].idPessoa == alunos[i].idAluno) {
+                        temMultaNaoPaga = 1;
+                        break;
+                    }
+                }
+                if (temMultaNaoPaga == 1) {
+                    break;
+                }
+            }
+        }
+        
+        if (temMultaNaoPaga == 1) {
+            continue;
+        }
+        
+        int todosDevolvidos = 1;
+        for (int j = 0; j < emprestimosSize; j++) {
+            if (emprestimos[j].tipoPessoa == 0 &&
+                emprestimos[j].idPessoa == alunos[i].idAluno &&
+                emprestimos[j].anoEmprestimo == ano &&
+                emprestimos[j].anoDevolucao == 0) {
+                todosDevolvidos = 0;
+                break;
+            }
+        }
+        
+        if (todosDevolvidos == 1) {
+            qtdUsuariosSemMultaComDevolucao++;
+        }
+    }
+    
+    for (int i = 0; i < professoresSize; i++) {
+        int temMultaNaoPaga = 0;
+        
+        for (int j = 0; j < multasSize; j++) {
+            if (multas[j].pago == 0) {
+                for (int k = 0; k < emprestimosSize; k++) {
+                    if (emprestimos[k].idEmprestimo == multas[j].idEmprestimo &&
+                        emprestimos[k].tipoPessoa == 1 &&
+                        emprestimos[k].idPessoa == professores[i].idProfessor) {
+                        temMultaNaoPaga = 1;
+                        break;
+                    }
+                }
+                if (temMultaNaoPaga == 1) {
+                    break;
+                }
+            }
+        }
+        
+        if (temMultaNaoPaga == 1) {
+            continue;
+        } 
+        
+        
+        int todosDevolvidos = 1;
+        for (int j = 0; j < emprestimosSize; j++) {
+            if (emprestimos[j].tipoPessoa == 1 &&
+                emprestimos[j].idPessoa == professores[i].idProfessor &&
+                emprestimos[j].anoEmprestimo == ano &&
+                emprestimos[j].anoDevolucao == 0) {
+                todosDevolvidos = 0;
+                break;
+            }
+        }
+        
+        if (todosDevolvidos == 1) {
+            qtdUsuariosSemMultaComDevolucao++;
+        }
+    }
+    
+    return qtdUsuariosSemMultaComDevolucao;
 }
 
 // ex 8 
@@ -364,4 +445,6 @@ int main() {
     printf(" \n qtd salas sempre lotadas %d", salasSempreLotadasAno(salas, 2, reservasSala, 2, 2024, alunos, 3, professores, 2));
 
     printf("\n qtd exemplares revisados por varios: %d", exemplaresRevisadosPorVarios(revisoes, 3, exemplares, 5, funcionarios, 2, livros, 4, categorias, 2));
+
+    printf("\n qtd usuarios sem multas e com devolucao: %d", usuariosSemMultasComDevolucao(alunos, 3, professores, 2, emprestimos, 5, multas, 2, doacoes, 2, 2024));
 }
