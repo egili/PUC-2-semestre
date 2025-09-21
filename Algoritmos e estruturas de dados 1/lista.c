@@ -138,7 +138,7 @@ int alunosSemEmprestimoNoAno(PessoaAluno* alunos, int alunosSize, Emprestimo* em
     for(int i = 0; i < alunosSize; i++) {
         int booleanFezEmprestimo = 0;
         for(int j = 0; j < emprestimosSize; j++) {
-            if(emprestimos[i].tipoPessoa == 0) {
+            if(emprestimos[j].tipoPessoa == 0) {
                 if(emprestimos[j].idPessoa == alunos[i].idAluno && emprestimos[j].anoEmprestimo == ano) {
                     booleanFezEmprestimo = 1;
                     break;
@@ -149,7 +149,6 @@ int alunosSemEmprestimoNoAno(PessoaAluno* alunos, int alunosSize, Emprestimo* em
             qtdAlunosQueNaoFizeramEmprestimosNoAno += 1;
         }
     }
-    
     return qtdAlunosQueNaoFizeramEmprestimosNoAno;
 }
 
@@ -158,7 +157,6 @@ int livrosSemExemplarBom(Livro* livros, int livrosSize, Exemplar* exemplares, in
     int qtdLivrosSemExemplarBom = 0;
     
     for(int i = 0; i < livrosSize; i++) {
-        
         if(idCategoria == 0 || livros[i].idCategoria == idCategoria) {
             int temExemplarBom = 0;
             for(int j = 0; j < exemplaresSize; j++) {
@@ -179,12 +177,44 @@ int livrosSemExemplarBom(Livro* livros, int livrosSize, Exemplar* exemplares, in
 
 // ex3
 int professoresEmTodosEventos(PessoaProfessor* professores, int professoresSize, Evento* eventos, int eventosSize, ParticipacaoEvento* participacoesEventos, int participacoesEventosSize, unsigned int ano) {
-    return 0;
+    
+    int qtdProfessoresTodosEventos = 0;
+    int totalEventosAno = 0;
+  
+    for (int i = 0; i < professoresSize; i++) {
+        int eventosParticipados = 0;
+        
+        for (int j = 0; j < eventosSize; j++) {
+            if (eventos[j].anoEvento == ano) {
+                totalEventosAno++;
+                int participou = 0;
+                for (int k = 0; k < participacoesEventosSize; k++) {
+                    if (participacoesEventos[k].tipoPessoa == 1 &&
+                        participacoesEventos[k].idPessoa == professores[i].idProfessor &&
+                        participacoesEventos[k].idEvento == eventos[j].idEvento) {
+                        participou = 1;
+                        break;
+                    }
+                }
+                if (participou) {
+                    eventosParticipados++;
+                }
+            }
+        }
+        if (eventosParticipados == totalEventosAno) {
+            qtdProfessoresTodosEventos++;
+        }
+    }
+    
+    return qtdProfessoresTodosEventos;
 }
 
 // ex 4
 int reservasNaoAtendidas(Reserva* reservas, int reservasSize, Livro* livros, int livrosSize, Exemplar* exemplares, int exemplaresSize, Emprestimo* emprestimos, int emprestimosSize) {
-    return 0;
+
+    int qtdReservasNaoAtendidas = 0;
+    
+    
 }
 
 // ex 5 
@@ -260,4 +290,6 @@ int main() {
     printf("qtd alunos sem emprestimno %d", alunosSemEmprestimoNoAno(alunos, 3, emprestimos, 5, 2023));
     
     printf("\nqtd livro sem exemplar bom %d", livrosSemExemplarBom(livros, 4, exemplares, 5, categorias, 2, 0));
+
+    printf("\n qtd professores em todos os eventos %d", professoresEmTodosEventos(professores, 2, eventos, 2, participacoes, 3, 2024));
 }
