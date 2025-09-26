@@ -96,3 +96,5 @@ function main() {
         console.log(`O CPF ${cpf} é INVÁLIDO.`);
     }
 }
+
+main();
