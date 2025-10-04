@@ -30,9 +30,9 @@ BEGIN
 
     vSalarioLiquido := vSalarioBruto - vINSS - vIRRF;
 
-    DBMS_OUTPUT.PUT_LINE('Salário Bruto: R$ ' || vSalarioBruto);
+    DBMS_OUTPUT.PUT_LINE('Salario Bruto: R$ ' || vSalarioBruto);
     DBMS_OUTPUT.PUT_LINE('INSS: R$ ' || ROUND(vINSS, 2));
     DBMS_OUTPUT.PUT_LINE('IRRF: R$ ' || ROUND(vIRRF, 2));
-    DBMS_OUTPUT.PUT_LINE('Salário Líquido: R$ ' || ROUND(vSalarioLiquido, 2));
+    DBMS_OUTPUT.PUT_LINE('Salario Liquido: R$ ' || ROUND(vSalarioLiquido, 2));
 END;
 /
